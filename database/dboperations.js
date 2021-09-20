@@ -5,7 +5,8 @@ const sql = require('mssql');
 async function isRegisteredUser(){
     try{
         let pool = await sql.connect(config);
-        let users = await pool.request().query("SELECT EMAIL FROM USERS WHERE EMAIL LIKE '%kirankosanam1@gmail.com%'");
+
+        let users = await pool.request().query("SELECT EMAIL FROM USERS WHERE EMAIL LIKE "+"'%"+cccc+"%'");
         if (users.recordsets.toString() === ''){
             // console.log('user not found');
             return false;

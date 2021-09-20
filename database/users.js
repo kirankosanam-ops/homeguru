@@ -1,10 +1,9 @@
 class UserCredentials{
-    constructor(username, emailId, password, firstName, lastName) {
+    constructor(username, emailId, password) {
         this.username = username;
         this.emailId = emailId;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
+
     }
 }
 
