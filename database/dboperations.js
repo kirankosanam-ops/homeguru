@@ -12,6 +12,7 @@ async function isRegisteredUser(email, password) {
     }
 }
 
+// creating new user
 async function createNewUser(username, email, password) {
     let insertQuery = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD) VALUES ("+ username.toString() + ", " + email.toString() + ", " + password.toString() + ")";
     try {
