@@ -12,6 +12,17 @@ async function isRegisteredUser(email, password) {
     }
 }
 
+async function getProfile(email) {
+    try {
+        let pool = await sql.connect(config);
+        let users = await pool.request().query("SELECT * FROM USERS WHERE EMAIL LIKE " + "'%" + email + "%'");
+        return users.recordsets;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
 // TODO :: error creating new user
 async function createNewUser(username, email, password) {
     let insertQuery = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD) VALUES ("+ username.toString() + ", " + email.toString() + ", " + password.toString() + ")";
@@ -29,5 +40,6 @@ async function createNewUser(username, email, password) {
 
 module.exports = {
     isRegUser : isRegisteredUser,
-    createUser : createNewUser
+    createUser : createNewUser,
+    getProfile : getProfile
 }
