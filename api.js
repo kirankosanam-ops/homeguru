@@ -5,11 +5,16 @@ const {log} = require("nodemon/lib/utils");
 const bodyParser = require('body-parser');
 const express = require('express');
 const sql = require("mssql");
+const table = require("table");
 const config = require("./database/dbconfig");
 const {getProfile} = require("./database/dboperations");
 const app = express();
 let em = '';
 app.use(bodyParser.urlencoded({extended: true}));
+
+let tabConfig = {
+    border: table.getBorderCharacters("ramac"),
+}
 
 //lOGIN PAGE
 app.get('/login', function (req, res) {
@@ -85,6 +90,31 @@ app.post('/profile', function (req, res) {
     }
 
 })
+
+
+// USER COLLECTION API
+app.get('/usercollection', function (req, res) {
+    res.sendFile(__dirname + '\\views\\usercollection.html');
+})
+app.post('/usercollection', function (req, res) {
+    if (req.body.hasOwnProperty("getCollection")) {
+        db.getUserCollection().then(result => {
+            let data = [['USERNAME', 'EMAIL']];
+            for(let i=0;i < result[0].length;i++){
+                console.log(result[0][i]);
+                data.push([result[0][i].USERNAME, result[0][i].EMAIL])
+            }
+            console.log(data);
+            let x = table.table(data, tabConfig);
+            console.log(x);
+            res.send(data);
+
+        });
+    }
+
+})
+
+
 app.listen(3000, function () {
     console.log('Server is running');
 });
