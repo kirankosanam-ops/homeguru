@@ -53,8 +53,10 @@ app.post('/signup', function (req, res) {
     db.isRegUser(email, password).then(result => {
 
         if (result) {
-            db.createUser(username, email, password).then(result => {
+            db.createUser(username, email, password).then(c_result => {
+                res.send("User Created Successfully, PLEASE LOGIN!!");
             });
+
         } else {
             res.send("Creation of new user failed, user found in database");
         }

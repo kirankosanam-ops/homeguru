@@ -5,7 +5,7 @@ const sql = require('mssql');
 async function isRegisteredUser(email, password) {
     try {
         let pool = await sql.connect(config);
-        let users = await pool.request().query("SELECT EMAIL, PASSWORD FROM USERS WHERE EMAIL LIKE " + "'%" + email + "%' AND PASSWORD LIKE " + "'%" + password + "%'");
+        let users = await pool.request().query("SELECT EMAIL, PASSWORD FROM USERS WHERE EMAIL LIKE " + "'%" + email + "%'" );
         return users.recordsets.toString() === '';
     } catch (error) {
         throw error;
@@ -25,12 +25,14 @@ async function getProfile(email) {
 
 // TODO :: error creating new user
 async function createNewUser(username, email, password) {
-    let insertQuery = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD) VALUES ("+ username.toString() + ", " + email.toString() + ", " + password.toString() + ")";
+    // let insertQuery = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD) VALUES ("+ username + ", " + email+ ", " + password + ")";
+    let insertQuery_1 = `INSERT INTO USERS (USERNAME, EMAIL, PASSWORD) VALUES ('${username}', '${email}', '${password}')`;
     try {
         let pool = await sql.connect(config);
-        await pool.request().query(insertQuery, function(err, result){
-            if (err) throw err;
-            console.log("1 record inserted");
+        await pool.request().query(insertQuery_1, function(err, result){
+            if (err){
+                throw err;
+            }
             return "1 record inserted";
         });
     } catch (error) {
