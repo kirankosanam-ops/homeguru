@@ -15,7 +15,24 @@ app.use(bodyParser.urlencoded({extended: true}));
 let tabConfig = {
     border: table.getBorderCharacters("ramac"),
 }
-
+app.get('/', function(req, res) {
+    res.sendFile(__dirname + '\\index.html');
+})
+app.post('/', function (req, res) {
+    if (req.body.hasOwnProperty('login')) {
+        console.log('login');
+        res.sendFile(__dirname + '\\views\\login.html');
+    } else if (req.body.hasOwnProperty('signup')) {
+        console.log('signup');
+        res.sendFile(__dirname + '\\views\\signup.html');
+    } else if (req.body.hasOwnProperty('profiles')) {
+        console.log('profile');
+        res.sendFile(__dirname + '\\views\\profile.html');
+    } else if (req.body.hasOwnProperty('userCollection')) {
+        console.log('usercollection');
+        res.sendFile(__dirname + '\\views\\usercollection.html');
+    }
+});
 //lOGIN PAGE
 app.get('/login', function (req, res) {
     res.sendFile(__dirname + '\\views\\login.html');
@@ -44,7 +61,6 @@ app.post('/login', function (req, res) {
 //SIGNUP PAGE
 app.get('/signup', function (req, res) {
     res.sendFile(__dirname + '\\views\\signup.html');
-
 });
 app.post('/signup', function (req, res) {
     const email = req.body.email;
@@ -100,7 +116,7 @@ app.post('/usercollection', function (req, res) {
     if (req.body.hasOwnProperty("getCollection")) {
         db.getUserCollection().then(result => {
             let data = [['USERNAME', 'EMAIL']];
-            for(let i=0;i < result[0].length;i++){
+            for (let i = 0; i < result[0].length; i++) {
                 console.log(result[0][i]);
                 data.push([result[0][i].USERNAME, result[0][i].EMAIL])
             }
